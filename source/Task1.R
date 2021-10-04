@@ -52,10 +52,16 @@ unificada = unificada %>% select(c(secuencia_p, orden, directorio, P6020, P6040,
 skim(unificada)
 
 unificada %>% summarise(total = table(p6020)) 
-unificada %>% group_by(p6020) %>% summarise(promedio_ingreso= mean(P6500, na.rm = T)) 
+unificada %>% group_by(P6020) %>% summarise(promedio_ingreso= mean(P6050, na.rm = T)) 
 unificada %>% group_by(P6020, ocupado, DPTO) %>% summarise(promedio = mean(P6040), na.rm = T) 
 unificada %>% group_by(P6020, ocupado, DPTO) %>% summarise(promedio = mean(ESC), na.rm = T) 
 unificada %>% group_by(DPTO) %>% summarise(total = table(ocupado), na.rm = T) 
 unificada %>% group_by(DPTO) %>% summarise(total = table(desocupado), na.rm = T)
 unificada %>% group_by(DPTO) %>% summarise(total = table(fuerza), na.rm = T)
 
+Graph1=ggplot(data=unificada,
+       mapping = aes(x= P6020,
+                     y= mean(P6050, na.rm = T))) +
+  ggtitle("Ingresos por sexo")
+
+ggsave(plot=Graph1, file = "data/views/graph1.jpeg")
